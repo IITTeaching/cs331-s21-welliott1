@@ -2,6 +2,8 @@
 def my_palindrome():
     return ''
 
+# Test comment
+
 # Do not change the main method
 def main():
     pal = my_palindrome()
