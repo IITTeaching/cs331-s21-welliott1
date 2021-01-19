@@ -1,6 +1,6 @@
 # Change this function
 def my_palindrome():
-    return ''
+    return 'racecar'
 
 # Test comment
 
