@@ -22,7 +22,16 @@ def captured_output():
 
 # implement this function
 def is_perfect(n):
-    pass
+    summed = 0
+    for i in range(1,n):
+        if n%i==0:
+            summed += i
+    if summed == n:
+        return True
+    else:
+        False
+
+    
 
 # (3 points)
 def test1():
@@ -40,7 +49,11 @@ def test1():
 
 # implement this function
 def multiples_of_3_and_5(n):
-    pass
+    summed = 0
+    for i in range(3,n):
+        if i%3==0 or i%5==0:
+            summed += i
+    return summed
 
 # (3 points)
 def test2():
@@ -53,7 +66,13 @@ def test2():
 # EXERCISE 3
 #################################################################################
 def integer_right_triangles(p):
-    pass
+    triangles = []
+    for x in range(1, p):
+        for y in range(1, p):
+            for z in range(1, p):
+                if (x**2 + y**2 == z**2) and (x + y + z == p) and (x <= y) and (y<z):
+                    triangles.append((x, y, z))           
+    return len(triangles)
 
 def test3():
     tc = unittest.TestCase()
@@ -67,7 +86,21 @@ def test3():
 
 # implement this function
 def gen_pattern(chars):
-    pass
+    max_Len = len(chars)*3 + 1
+    forw_rows = []
+    for i in range(1, len(chars)+1):
+        forw_rows.append('.'.join(chars[-1:-i]).center(max_Len,"."))
+
+    for k in range(0,len(forw_rows)):
+        print(forw_rows[k])
+
+    for j in range(len(forw_rows)-2,-1):
+        print(forw_rows[j])
+    
+
+            
+
+        
 
 def test4():
     with captured_output() as (out,err):

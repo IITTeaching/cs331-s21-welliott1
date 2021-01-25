@@ -38,6 +38,9 @@ Given a perimeter of 60, we can find two right triangles with integral length si
 
 Note that your solution should take care to limit the number of triangles it tests --- **your function must complete in under 3 seconds for all values of `p` used in the test cells below to earn credit.**
 
+
+
+
 ## Exercise 4: Simple ASCII Art
 
 For this next exercise, you'll need to complete the function `gen_pattern`, which, when called with a string of length $\ge$ 1, will print an ASCII art pattern of concentric diamonds using those characters. The following are examples of patterns printed by the function (note the newline at the end of the last line!):
