@@ -29,7 +29,7 @@ def is_perfect(n):
     if summed == n:
         return True
     else:
-        False
+        return False
 
     
 
@@ -86,15 +86,24 @@ def test3():
 
 # implement this function
 def gen_pattern(chars):
+    if(len(chars)==1):
+        print(chars)
+    elif(len(chars==2)):
+        print("..")
+    else:
+    
     max_Len = len(chars)*3 + 1
     forw_rows = []
     for i in range(1, len(chars)+1):
-        forw_rows.append('.'.join(chars[-1:-i]).center(max_Len,"."))
+        temp = chars[-i::]
+        middle = '.'.join(temp)
+        fine_line = middle.center(max_Len,'.')
+        forw_rows.append(fine_line)
 
     for k in range(0,len(forw_rows)):
         print(forw_rows[k])
 
-    for j in range(len(forw_rows)-2,-1):
+    for j in range(len(forw_rows)-2,-1,-1):
         print(forw_rows[j])
     
 
