@@ -69,9 +69,9 @@ def integer_right_triangles(p):
     triangles = []
     for x in range(1, p):
         for y in range(1, p):
-            for z in range(1, p):
-                if (x**2 + y**2 == z**2) and (x + y + z == p) and (x <= y) and (y<z):
-                    triangles.append((x, y, z))           
+            z = p - (x+y)
+            if (x**2 + y**2 == z**2) and (x + y + z == p) and (x <= y) and (y<z):
+                triangles.append((x, y, z))           
     return len(triangles)
 
 def test3():
@@ -87,29 +87,26 @@ def test3():
 # implement this function
 def gen_pattern(chars):
     if(len(chars)==1):
-        print(chars)
-    elif(len(chars==2)):
-        print("..")
+            print(chars)
     else:
-    
-    max_Len = len(chars)*3 + 1
-    forw_rows = []
-    for i in range(1, len(chars)+1):
-        temp = chars[-i::]
-        middle = '.'.join(temp)
-        fine_line = middle.center(max_Len,'.')
-        forw_rows.append(fine_line)
+        max_Len = (len(chars)*2 -2) +  (len(chars)*2 - 1)
+        forw_rows = []
 
-    for k in range(0,len(forw_rows)):
-        print(forw_rows[k])
+        for i in range(2,len(chars)+2):
+            front = chars[-1:-i:-1]
+            back = front[-2::-1]
+            middle = '.'.join(front+back)
+            fin_line = middle.center(max_Len,'.')
+            forw_rows.append(fin_line)
 
-    for j in range(len(forw_rows)-2,-1,-1):
-        print(forw_rows[j])
+        for k in range(0,len(forw_rows)):
+            print(forw_rows[k])
+
+        for j in range(len(forw_rows)-2,-1,-1):
+            print(forw_rows[j])
     
 
             
-
-        
 
 def test4():
     tc = unittest.TestCase()
