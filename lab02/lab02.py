@@ -52,6 +52,10 @@ def compute_ngrams(toks, n=2):
     
     return n_gram
 
+def test0():
+    input_list="I really really like cake".split()
+    print(compute_ngrams(input_list,3))
+
 def test1():
     test1_1()
     test1_2()
@@ -110,7 +114,18 @@ def test1_2():
 ################################################################################
 # Implement this function
 def gen_passage(ngram_dict, length=100):
-    pass
+    dict_keys = sorted(ngram_dict.keys())
+    ans = list()
+    #randomly pick one from dict_keys
+    #immedietly add to ans
+    # output = [*first*]
+    while len(ans)< length:
+        #randomly pick from ngram_dict[first]
+        #append to ans
+        #new_token/first = line[-1]
+        #if first is NOT a key in the dictionary:
+            #other random selection
+        return " ".join(ans)
 
 # 50 Points
 def test2():
@@ -127,8 +142,9 @@ def test2():
                    'too bold, \'tis not night. see, how she leans her')
 
 def main():
+    #test0()
     test1()
-    #test2()
+    test2()
 
 if __name__ == '__main__':
     main()
