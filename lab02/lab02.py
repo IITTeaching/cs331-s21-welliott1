@@ -28,13 +28,31 @@ ROMEO_SOLILOQUY = """
         O, that I were a glove upon that hand,
         that I might touch that cheek!"""
 
+toks = [t.lower() for t in ROMEO_SOLILOQUY.split()]
+
+
 ################################################################################
 # EXERCISE 1
 ################################################################################
 # Implement this function
 def compute_ngrams(toks, n=2):
     """Returns an n-gram dictionary based on the provided list of tokens."""
-    pass
+    n_gram = dict()
+    for i in range(len(toks)-n+1): #go through all tokens, excluding last n-1
+        
+        #make tuple of next n
+        temp = tuple()
+        temp = tuple(toks[i+1:i+n])
+
+        #add tuple to dict list
+        if toks[i] not in n_gram:
+            temp_list = []
+            temp_list.append(temp)
+            n_gram[toks[i]] = temp_list
+        else:
+            n_gram[toks[i]].append(temp)
+    
+    return n_gram
 
 def test1():
     test1_1()
@@ -111,7 +129,7 @@ def test2():
 
 def main():
     test1()
-    test2()
+    #test2()
 
 if __name__ == '__main__':
     main()
