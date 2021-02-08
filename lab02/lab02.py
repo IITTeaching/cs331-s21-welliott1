@@ -41,13 +41,11 @@ def compute_ngrams(toks, n=2):
     for i in range(len(toks)-n+1): #go through all tokens, excluding last n-1
         
         #make tuple of next n
-        temp = tuple()
         temp = tuple(toks[i+1:i+n])
 
         #add tuple to dict list
         if toks[i] not in n_gram:
-            temp_list = []
-            temp_list.append(temp)
+            temp_list = [temp]
             n_gram[toks[i]] = temp_list
         else:
             n_gram[toks[i]].append(temp)
@@ -57,6 +55,7 @@ def compute_ngrams(toks, n=2):
 def test1():
     test1_1()
     test1_2()
+    print('passed test1')
 
 # 20 Points
 def test1_1():
