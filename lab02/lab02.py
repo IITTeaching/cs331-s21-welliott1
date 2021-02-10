@@ -116,16 +116,17 @@ def test1_2():
 def gen_passage(ngram_dict, length=100):
     dict_keys = sorted(ngram_dict.keys())
     ans = list()
-    #randomly pick one from dict_keys
-    #immedietly add to ans
-    # output = [*first*]
+    start = random.choice(dict_keys)#randomly pick one from dict_keys
     while len(ans)< length:
-        #randomly pick from ngram_dict[first]
-        #append to ans
-        #new_token/first = line[-1]
-        #if first is NOT a key in the dictionary:
-            #other random selection
-        return " ".join(ans)
+        ans.append(start)
+        temp1 = random.choice(ngram_dict.get(start))#randomly pick from ngram_dict[first]
+        for i in range(0,len(temp1)):
+            ans.append(temp1[i])#append to ans
+        start = temp1[-1]
+        if start not in ngram_dict:#if first is NOT a key in the dictionary:
+            start = random.choice(dict_keys)#other random selection
+        
+    return str(" ".join(ans))
 
 # 50 Points
 def test2():
