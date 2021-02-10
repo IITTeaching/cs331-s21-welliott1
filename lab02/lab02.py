@@ -113,21 +113,23 @@ def test1_2():
 # EXERCISE 2
 ################################################################################
 # Implement this function
+
+
 def gen_passage(ngram_dict, length=100):
-    dict_keys = sorted(ngram_dict.keys())
-    ans = list()
-    start = random.choice(dict_keys)#randomly pick one from dict_keys
-    while len(ans)< length:
-        ans.append(start)
-        current = ngram_dict.get(start)
-        temp1 = list(random.choice(current))#randomly pick from ngram_dict[start]
+    dict_keys = sorted(ngram_dict.keys())   #dict_keys = sorted list of ngram_dictionary keys
+    ans = list()    #create list for tokens in my generated passage
+    start = random.choice(dict_keys)    #randomly pick key from dict_keys to start the passage
+    while len(ans)< length: #keep the passage at the given length
+        ans.append(start)   #add the current start key to the passage
+        current = ngram_dict.get(start) #get the list of tuples at the current start key
+        temp1 = random.choice(current)  #randomly pick tuple from list of tuples at start key
 
         for i in range(0,len(temp1)):
-            ans.append(temp1[i])#append to ans
+            ans.append(temp1[i])    #append elements in randomly selected tuple (temp1) to ans
         
-        start = temp1[-1]
-        if start not in ngram_dict:#if first is NOT a key in the dictionary:
-            start = random.choice(dict_keys)#other random selection
+        start = temp1[-1]   #new start is the last element in temp1 tuple
+        if start not in ngram_dict: #if new start is NOT a key in the dictionary:
+            start = random.choice(dict_keys)    #make other random key selection
         
     return str(" ".join(ans))
 
