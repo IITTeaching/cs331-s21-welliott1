@@ -119,9 +119,12 @@ def gen_passage(ngram_dict, length=100):
     start = random.choice(dict_keys)#randomly pick one from dict_keys
     while len(ans)< length:
         ans.append(start)
-        temp1 = random.choice(ngram_dict.get(start))#randomly pick from ngram_dict[first]
+        current = ngram_dict.get(start)
+        temp1 = list(random.choice(current))#randomly pick from ngram_dict[start]
+
         for i in range(0,len(temp1)):
             ans.append(temp1[i])#append to ans
+        
         start = temp1[-1]
         if start not in ngram_dict:#if first is NOT a key in the dictionary:
             start = random.choice(dict_keys)#other random selection
