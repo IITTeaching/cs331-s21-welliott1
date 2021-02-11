@@ -52,10 +52,6 @@ def compute_ngrams(toks, n=2):
     
     return n_gram
 
-def test0():
-    input_list="I really really like cake".split()
-    print(compute_ngrams(input_list,3))
-
 def test1():
     test1_1()
     test1_2()
@@ -117,21 +113,20 @@ def test1_2():
 
 def gen_passage(ngram_dict, length=100):
     dict_keys = sorted(ngram_dict.keys())   #dict_keys = sorted list of ngram_dictionary keys
-    ans = list()    #create list for tokens in my generated passage
-    start = random.choice(dict_keys)    #randomly pick key from dict_keys to start the passage
-    while len(ans)< length: #keep the passage at the given length
-        ans.append(start)   #add the current start key to the passage
-        current = ngram_dict.get(start) #get the list of tuples at the current start key
-        temp1 = random.choice(current)  #randomly pick tuple from list of tuples at start key
+    ans = list()                            #create list for tokens in my generated passage
+    start = random.choice(dict_keys)        #randomly pick key from dict_keys to start the passage
+    while len(ans) < length:                 #keep the passage at the given length
+        ans.append(start)                   #add the current start key to the passage
+        current = ngram_dict.get(start)     #get the list of tuples at the current start key
+        temp1 = random.choice(current)      #randomly pick tuple from list of tuples at start key. THIS RANDOM CHOICE DOESN'T PICK ANYTHING EXCEPT "really" from the list it's passed.
 
-        for i in range(0,len(temp1)):
-            ans.append(temp1[i])    #append elements in randomly selected tuple (temp1) to ans
+        ans.extend(temp1)                   #append elements in randomly selected tuple (temp1) to ans
         
-        start = temp1[-1]   #new start is the last element in temp1 tuple
-        if start not in ngram_dict: #if new start is NOT a key in the dictionary:
-            start = random.choice(dict_keys)    #make other random key selection
+        start = temp1[-1]                   #new start is the last element
+        if start not in ngram_dict:         #if new start is NOT a key in the dictionary:
+            start = random.choice(dict_keys)#make other random key selection
         
-    return str(" ".join(ans))
+    return str(" ".join(ans))               #return joined list as a string
 
 # 50 Points
 def test2():
@@ -148,7 +143,6 @@ def test2():
                    'too bold, \'tis not night. see, how she leans her')
 
 def main():
-    #test0()
     test1()
     test2()
 
