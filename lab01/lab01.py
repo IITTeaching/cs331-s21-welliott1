@@ -105,6 +105,7 @@ def gen_pattern(chars):
         for j in range(len(forw_rows)-2,-1,-1):
             print(forw_rows[j])
     
+    #comment
 
             
 

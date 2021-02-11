@@ -28,17 +28,38 @@ ROMEO_SOLILOQUY = """
         O, that I were a glove upon that hand,
         that I might touch that cheek!"""
 
+toks = [t.lower() for t in ROMEO_SOLILOQUY.split()]
+
+
 ################################################################################
 # EXERCISE 1
 ################################################################################
 # Implement this function
 def compute_ngrams(toks, n=2):
     """Returns an n-gram dictionary based on the provided list of tokens."""
-    pass
+    n_gram = dict()
+    for i in range(len(toks)-n+1): #go through all tokens, excluding last n-1
+        
+        #make tuple of next n
+        temp = tuple(toks[i+1:i+n])
+
+        #add tuple to dict list
+        if toks[i] not in n_gram:
+            temp_list = [temp]
+            n_gram[toks[i]] = temp_list
+        else:
+            n_gram[toks[i]].append(temp)
+    
+    return n_gram
+
+def test0():
+    input_list="I really really like cake".split()
+    print(compute_ngrams(input_list,3))
 
 def test1():
     test1_1()
     test1_2()
+    print('passed test1')
 
 # 20 Points
 def test1_1():
@@ -92,8 +113,25 @@ def test1_2():
 # EXERCISE 2
 ################################################################################
 # Implement this function
+
+
 def gen_passage(ngram_dict, length=100):
-    pass
+    dict_keys = sorted(ngram_dict.keys())   #dict_keys = sorted list of ngram_dictionary keys
+    ans = list()    #create list for tokens in my generated passage
+    start = random.choice(dict_keys)    #randomly pick key from dict_keys to start the passage
+    while len(ans)< length: #keep the passage at the given length
+        ans.append(start)   #add the current start key to the passage
+        current = ngram_dict.get(start) #get the list of tuples at the current start key
+        temp1 = random.choice(current)  #randomly pick tuple from list of tuples at start key
+
+        for i in range(0,len(temp1)):
+            ans.append(temp1[i])    #append elements in randomly selected tuple (temp1) to ans
+        
+        start = temp1[-1]   #new start is the last element in temp1 tuple
+        if start not in ngram_dict: #if new start is NOT a key in the dictionary:
+            start = random.choice(dict_keys)    #make other random key selection
+        
+    return str(" ".join(ans))
 
 # 50 Points
 def test2():
@@ -110,6 +148,7 @@ def test2():
                    'too bold, \'tis not night. see, how she leans her')
 
 def main():
+    #test0()
     test1()
     test2()
 
