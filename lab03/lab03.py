@@ -9,15 +9,13 @@ S = TypeVar('S')
 # EXERCISE 1
 #################################################################################
 def mysort(lst: List[T], compare: Callable[[T, T], int]) -> List[T]:
-    """
-    This method should sort input list lst of elements of some type T.
-
-    Elements of the list are compared using function compare that takes two
-    elements of type T as input and returns -1 if the left is smaller than the
-    right element, 1 if the left is larger than the right, and 0 if the two
-    elements are equal.
-    """
-    pass
+    for i in range(1,len(lst)):
+        for j in range(i,0,-1):
+            if compare(lst[j],lst[j-1])==-1:
+               lst[j], lst[j-1] = lst[j-1], lst[j]
+            else:
+                break 
+    return lst
 
 def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
     """
@@ -27,7 +25,17 @@ def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
     position of the first (leftmost) match for elem in lst. If elem does not
     exist in lst, then return -1.
     """
-    pass
+    low = 0
+    high = len(lst)
+    while high > low:
+        mid = ((high - low) // 2) + low
+        if lst[mid] == elem:
+            return mid
+        low = mid + 1 if compare(lst[mid],elem)==-1 else low
+        high = mid - 1 if compare(lst[mid],elem)==1 else high
+    return -1
+
+
 
 class Student():
     """Custom class to test generic sorting and searching."""
@@ -106,13 +114,30 @@ def test1_5():
 # EXERCISE 2
 #################################################################################
 class PrefixSearcher():
-
     def __init__(self, document, k):
         """
         Initializes a prefix searcher using a document and a maximum
         search string length k.
         """
-        pass
+        
+        lst = []
+        for i in range(0,len(document)-(k-1)):
+            lst.append(document[i:i+k])
+        for j in range(len(document)-(k-1),len(document)):
+            lst.append[j:len(document)]
+        lst = mysort(lst)
+
+    def lim_binsearch(self, lst: List[T], elem: S, lim: int, compare: Callable[[T, S], int]) -> int:
+
+        low = 0
+        high = len(lst)
+        while high > low:
+            mid = ((high - low) // 2) + low
+            if lst[mid][0:lim] == elem:
+                return mid
+            low = mid + 1 if compare(lst[mid][0:lim],elem)==-1 else low
+            high = mid - 1 if compare(lst[mid][0:lim],elem)==1 else high
+        return -1
 
     def search(self, q):
         """
@@ -121,7 +146,11 @@ class PrefixSearcher():
         length up to n). If q is longer than n, then raise an
         Exception.
         """
-        pass
+        if self.lim_binsearch(self.lst,q,len(q)) != -1:
+            return False
+        else:
+            return True
+
 
 # 30 Points
 def test2():
@@ -215,9 +244,9 @@ def test3_2():
 # TEST CASES
 #################################################################################
 def main():
-    test1()
+    #test1()
     test2()
-    test3()
+    #test3()
 
 if __name__ == '__main__':
     main()
