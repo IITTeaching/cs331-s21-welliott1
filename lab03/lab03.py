@@ -18,17 +18,10 @@ def mysort(lst: List[T], compare: Callable[[T, T], int]) -> List[T]:
     return lst
 
 def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
-    """
-    This method search for elem in lst using binary search.
-
-    The elements of lst are compared using function compare. Returns the
-    position of the first (leftmost) match for elem in lst. If elem does not
-    exist in lst, then return -1.
-    """
     low = 0
-    high = len(lst)
-    while high > low:
-        mid = ((high - low) // 2) + low
+    high = len(lst)-1
+    while high >= low:
+        mid = ((high + low) // 2) 
         if compare(lst[mid], elem)==0:
             return mid
         low = mid + 1 if compare(lst[mid],elem)==-1 else low
@@ -117,31 +110,21 @@ class PrefixSearcher():
     
     
     def __init__(self, document, k):
-        """
-        Initializes a prefix searcher using a document and a maximum
-        search string length k.
-        """
-        
+        self.n = k
         self.lst = []
-        for i in range(0,len(document)-(k-1)):
-            self.lst.append(document[i:i+k])
-        for j in range(len(document)-(k-1),len(document)):
-            self.lst.append[j:len(document)]
-        strcmp = lambda x,y:  0 if x == y else (-1 if x < y else 1)
-        self.lst = mysort(lst, strcmp)
+        for l in range(1, k+1):
+            for i in range(0,len(document)-(l)):
+                self.lst.append(document[i:i+l])
+            for j in range(len(document)-(l),len(document)):
+                self.lst.append(document[j:len(document)])
+        self.strcmp = lambda x,y:  0 if x == y else (-1 if x < y else 1)
+        self.lst = mysort(self.lst, self.strcmp)
 
-
-
-
-    
 
     def search(self, q):
-        """
-        Return true if the document contains search string q (of
-
-        length up to n). If q is longer than n, then raise an
-        Exception.
-        """
+        if len(q) > self.n:
+            raise("length of q cannot be greater than length n")
+        return mybinsearch(self.lst,q,self.strcmp) >= 0
         
         
 
@@ -242,8 +225,8 @@ def test3_2():
 # TEST CASES
 #################################################################################
 def main():
-    #test1()
-    #test2()
+    test1()
+    test2()
     #test3()
 
 if __name__ == '__main__':
