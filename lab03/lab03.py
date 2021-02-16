@@ -29,7 +29,7 @@ def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
     high = len(lst)
     while high > low:
         mid = ((high - low) // 2) + low
-        if lst[mid] == elem:
+        if compare(lst[mid], elem)==0:
             return mid
         low = mid + 1 if compare(lst[mid],elem)==-1 else low
         high = mid - 1 if compare(lst[mid],elem)==1 else high
@@ -114,30 +114,26 @@ def test1_5():
 # EXERCISE 2
 #################################################################################
 class PrefixSearcher():
+    
+    
     def __init__(self, document, k):
         """
         Initializes a prefix searcher using a document and a maximum
         search string length k.
         """
         
-        lst = []
+        self.lst = []
         for i in range(0,len(document)-(k-1)):
-            lst.append(document[i:i+k])
+            self.lst.append(document[i:i+k])
         for j in range(len(document)-(k-1),len(document)):
-            lst.append[j:len(document)]
-        lst = mysort(lst)
+            self.lst.append[j:len(document)]
+        strcmp = lambda x,y:  0 if x == y else (-1 if x < y else 1)
+        self.lst = mysort(lst, strcmp)
 
-    def lim_binsearch(self, lst: List[T], elem: S, lim: int, compare: Callable[[T, S], int]) -> int:
 
-        low = 0
-        high = len(lst)
-        while high > low:
-            mid = ((high - low) // 2) + low
-            if lst[mid][0:lim] == elem:
-                return mid
-            low = mid + 1 if compare(lst[mid][0:lim],elem)==-1 else low
-            high = mid - 1 if compare(lst[mid][0:lim],elem)==1 else high
-        return -1
+
+
+    
 
     def search(self, q):
         """
@@ -146,10 +142,8 @@ class PrefixSearcher():
         length up to n). If q is longer than n, then raise an
         Exception.
         """
-        if self.lim_binsearch(self.lst,q,len(q)) != -1:
-            return False
-        else:
-            return True
+        
+        
 
 
 # 30 Points
@@ -192,20 +186,24 @@ class SuffixArray():
         """
         Creates a suffix array for document (a string).
         """
-        pass
+        self.document = document
+        #pase and build suffixArray
 
 
     def positions(self, searchstr: str):
         """
         Returns all the positions of searchstr in the documented indexed by the suffix array.
         """
+        #search linearly through top layer, search binarily through next layer
         pass
 
     def contains(self, searchstr: str):
         """
         Returns true of searchstr is coontained in document.
         """
-        pass
+        #mybinsearch(self.docarray, lambda x,y: x==yCOMPARE)
+
+        return searchstr in self.document
 
 # 40 Points
 def test3():
@@ -245,7 +243,7 @@ def test3_2():
 #################################################################################
 def main():
     #test1()
-    test2()
+    #test2()
     #test3()
 
 if __name__ == '__main__':
