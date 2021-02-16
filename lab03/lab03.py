@@ -112,11 +112,12 @@ class PrefixSearcher():
     def __init__(self, document, k):
         self.n = k
         self.lst = []
-        for l in range(1, k+1):
-            for i in range(0,len(document)-(l)):
-                self.lst.append(document[i:i+l])
-            for j in range(len(document)-(l),len(document)):
-                self.lst.append(document[j:len(document)])
+        
+        for i in range(0,len(document)-(k)):
+            self.lst.append(document[i:i+k])
+        for j in range(len(document)-(k),len(document)):
+            self.lst.append(document[j:len(document)])
+
         self.strcmp = lambda x,y:  0 if x == y else (-1 if x < y else 1)
         self.lst = mysort(self.lst, self.strcmp)
 
@@ -124,10 +125,11 @@ class PrefixSearcher():
     def search(self, q):
         if len(q) > self.n:
             raise("length of q cannot be greater than length n")
-        return mybinsearch(self.lst,q,self.strcmp) >= 0
-        
-        
 
+        self.nxtstrcmp = lambda x,y:  0 if x[0:len(q)] == y[0:len(q)] else (-1 if x[0:len(q)] < y[0:len(q)] else 1)
+        return mybinsearch(self.lst,q,self.nxtstrcmp) >= 0
+        
+        
 
 # 30 Points
 def test2():
