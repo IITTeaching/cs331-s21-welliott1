@@ -172,30 +172,31 @@ class SuffixArray():
         Creates a suffix array for document (a string).
         """
         self.document = document
-        #pase and build suffixArray
+        suff = list(range(0,len(document)))
+        suffcomp = lambda i, j: 0 if document[i:] == document[j:] else (-1 if document[i:]<document[j:] else 1)
+        #CHANGE PARTICULARS
+        self.suff_array = mysort(suff,suffcomp)
 
 
     def positions(self, searchstr: str):
         """
         Returns all the positions of searchstr in the documented indexed by the suffix array.
         """
-        #search linearly through top layer, search binarily through next layer
         pass
 
     def contains(self, searchstr: str):
         """
-        Returns true of searchstr is coontained in document.
+        Returns true if searchstr is coontained in document.
         """
-        #mybinsearch(self.docarray, lambda x,y: x==yCOMPARE)
-
-        return searchstr in self.document
+        newComp = lambda i, str1: 0 if self.document[i:i+len(str1)] == str1 else (-1 if self.document[i:i+len(str1)] < str1 else 1)
+        mybinsearch(self.suff_array,searchstr,newComp)
 
 # 40 Points
 def test3():
     """Test suffix arrays."""
     print(80 * "#" + "\nTest suffix arrays.")
     test3_1()
-    test3_2()
+    #test3_2()
 
 
 # 20 Points
@@ -229,7 +230,7 @@ def test3_2():
 def main():
     test1()
     test2()
-    #test3()
+    test3()
 
 if __name__ == '__main__':
     main()
