@@ -187,7 +187,7 @@ class SuffixArray():
         """
         Returns true if searchstr is coontained in document.
         """
-        newComp = lambda z, mystr: 0 if self.document[i:i+len(mystr)] == mystr else (-1 if self.document[z:z+len(mystr)] < mystr else 1)
+        newComp = lambda z, mystr: 0 if self.document[z:z+len(mystr)] == mystr else (-1 if self.document[z:z+len(mystr)] < mystr else 1)
         mybinsearch(self.suff_array,searchstr,newComp)
 
 # 40 Points
