@@ -173,8 +173,7 @@ class SuffixArray():
         """
         self.document = document
         suff = list(range(0,len(document)))
-        suffcomp = lambda i, j: 0 if document[i:] == document[j:] else (-1 if document[i:]<document[j:] else 1)
-        #CHANGE PARTICULARS
+        suffcomp = lambda j, k: 0 if document[j:] == document[k:] else (-1 if document[j:]<document[k:] else 1)
         self.suff_array = mysort(suff,suffcomp)
 
 
@@ -188,7 +187,7 @@ class SuffixArray():
         """
         Returns true if searchstr is coontained in document.
         """
-        newComp = lambda i, str1: 0 if self.document[i:i+len(str1)] == str1 else (-1 if self.document[i:i+len(str1)] < str1 else 1)
+        newComp = lambda z, mystr: 0 if self.document[i:i+len(mystr)] == mystr else (-1 if self.document[z:z+len(mystr)] < mystr else 1)
         mybinsearch(self.suff_array,searchstr,newComp)
 
 # 40 Points
