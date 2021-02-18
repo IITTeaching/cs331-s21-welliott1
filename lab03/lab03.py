@@ -173,7 +173,7 @@ class SuffixArray():
         """
         self.document = document
         suff = list(range(0,len(document)))
-        suffcomp = lambda j, k: 0 if document[j:] == document[k:] else (-1 if document[j:]<document[k:] else 1)
+        suffcomp = lambda j, k: 0 if self.document[j:] == self.document[k:] else (-1 if self.document[j:]<self.document[k:] else 1)
         self.suff_array = mysort(suff,suffcomp)
 
 
@@ -181,21 +181,29 @@ class SuffixArray():
         """
         Returns all the positions of searchstr in the documented indexed by the suffix array.
         """
-        pass
+        sameComp = lambda z, searchstr: 0 if self.document[z:z+len(searchstr)] == searchstr else (-1 if self.document[z:z+len(searchstr)] < searchstr else 1)
+        index = mybinsearch(self.suff_array,searchstr,sameComp)
+        while(self.document[self.suff_array[index-1]:self.suff_array[index-1]+len(searchstr)]==searchstr and index >0):
+            index -= 1
+        ans = [index]
+        return ans
+        
+
 
     def contains(self, searchstr: str):
         """
         Returns true if searchstr is coontained in document.
         """
-        newComp = lambda z, mystr: 0 if self.document[z:z+len(mystr)] == mystr else (-1 if self.document[z:z+len(mystr)] < mystr else 1)
-        mybinsearch(self.suff_array,searchstr,newComp)
+        newComp = lambda z, searchstr: 0 if self.document[z:z+len(searchstr)] == searchstr else (-1 if self.document[z:z+len(searchstr)] < searchstr else 1)
+        return mybinsearch(self.suff_array,searchstr,newComp)>=0
+
 
 # 40 Points
 def test3():
     """Test suffix arrays."""
     print(80 * "#" + "\nTest suffix arrays.")
     test3_1()
-    #test3_2()
+    test3_2()
 
 
 # 20 Points
