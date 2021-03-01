@@ -119,11 +119,15 @@ class ArrayList:
         and enclosed by square brackets. E.g., for a list containing values
         1, 2 and 3, returns '[1, 2, 3]'."""
         ### BEGIN SOLUTION
+        if len(self) == 0:
+            return "[]"
+        return "[" + ", ".join(str(element) for element in self) + "]"
         ### END SOLUTION
 
     def __repr__(self):
         """Supports REPL inspection. (Same behavior as `str`.)"""
         ### BEGIN SOLUTION
+        return str(self)
         ### END SOLUTION
 
 
@@ -173,16 +177,27 @@ class ArrayList:
     def __len__(self):
         """Implements `len(self)`"""
         ### BEGIN SOLUTION
+        return self.len
         ### END SOLUTION
 
     def min(self):
         """Returns the minimum value in this list."""
         ### BEGIN SOLUTION
+        current_min = self[0]
+        for elem in self:
+            if elem < current_min:
+                current_min = elem
+        return current_min
         ### END SOLUTION
 
     def max(self):
         """Returns the maximum value in this list."""
         ### BEGIN SOLUTION
+        current_max = self[0]
+        for elem in self:
+            if elem > current_max:
+                current_max = elem
+        return current_max
         ### END SOLUTION
 
     def index(self, value, i=0, j=None):
@@ -196,6 +211,11 @@ class ArrayList:
     def count(self, value):
         """Returns the number of times value appears in this list."""
         ### BEGIN SOLUTION
+        count = 0
+        for element in self:
+            if element == value:
+                count += 1
+        return count
         ### END SOLUTION
 
 
@@ -204,8 +224,11 @@ class ArrayList:
     def __add__(self, other):
         """Implements `self + other_array_list`. Returns a new ArrayList
         instance that contains the values in this list followed by those
-        of other."""
+        of other. RETURNING A THIRD LIST"""
         ### BEGIN SOLUTION
+        new = self.copy()
+        return new.extend(other)
+        
         ### END SOLUTION
 
     def clear(self):
@@ -215,11 +238,17 @@ class ArrayList:
         """Returns a new ArrayList instance (with a separate data store), that
         contains the same values as this list."""
         ### BEGIN SOLUTION
+        temp = ArrayList()
+        temp.data = ConstrainedList.create(self)
+        temp.len = self.len
+        return temp
         ### END SOLUTION
 
     def extend(self, other):
-        """Adds all elements, in order, from other --- an Iterable --- to this list."""
+        """Adds all elements, in order, from other --- an Iterable --- to this list. MUTATING THIS LIST"""
         ### BEGIN SOLUTION
+        # For every_thing in other:
+            #copy into this list (append)
         ### END SOLUTION
 
 
@@ -228,6 +257,8 @@ class ArrayList:
     def __iter__(self):
         """Supports iteration (via `iter(self)`)"""
         ### BEGIN SOLUTION
+        for i in range(len(self)):
+            yield self[i]
         ### END SOLUTION
 
 ################################################################################
