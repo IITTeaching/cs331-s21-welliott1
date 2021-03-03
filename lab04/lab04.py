@@ -89,7 +89,7 @@ class ArrayList:
         """Implements `x = self[idx]`"""
         assert(isinstance(idx, int))
         nidx = self._normalize_idx(idx)
-        if nidx >= len(self.data):
+        if nidx >= self.len:
             raise IndexError
         return self.data[nidx]
 
@@ -97,7 +97,7 @@ class ArrayList:
         """Implements `self[idx] = x`"""
         assert(isinstance(idx, int))
         nidx = self._normalize_idx(idx)
-        if nidx >= len(self.data):
+        if nidx >= self.len:
             raise IndexError
         self.data[nidx] = value
 
@@ -229,6 +229,8 @@ class ArrayList:
         new = self.copy()
         return new.extend(other)
         
+        
+        ### BEGIN SOLUTION
         ### END SOLUTION
 
     def clear(self):
@@ -249,6 +251,11 @@ class ArrayList:
         ### BEGIN SOLUTION
         # For every_thing in other:
             #copy into this list (append)
+        ### END SOLUTION
+
+    def extend(self, other):
+        """Adds all elements, in order, from other --- an Iterable --- to this list."""
+        ### BEGIN SOLUTION
         ### END SOLUTION
 
 
