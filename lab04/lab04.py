@@ -6,8 +6,6 @@ class ConstrainedList (list):
 
         - `lst[i]` for getting and setting a value at an *existing, positive* index `i`
         - `len(lst)` to obtain the number of slots
-        - `lst.append(None)` to grow the list by *one slot at a time*
-        - `del lst[len(lst)-1]` to delete the last slot in a list
 
        All other operations will result in an exception being raised.
 
@@ -80,7 +78,7 @@ class ArrayList:
     def _normalize_idx(self, idx):
         nidx = idx
         if nidx < 0:
-            nidx += len(self.data)
+            nidx += self.len
             if nidx < 0:
                 nidx = 0
         return nidx
@@ -235,6 +233,7 @@ class ArrayList:
 
     def clear(self):
         self.data = ConstrainedList() # don't change this!
+        self.len = 0 # don't change this!
 
     def copy(self):
         """Returns a new ArrayList instance (with a separate data store), that
