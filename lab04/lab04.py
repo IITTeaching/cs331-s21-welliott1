@@ -131,9 +131,20 @@ class ArrayList:
 
     ### single-element manipulation ###
 
+    def expand(self):
+        if(self.len >= len(self.data)):
+            newList = ConstrainedList((self.len + 1)*2)
+            for i in range(0,len(self.data)): #or range(0,self.len)
+                newList[i] = self.data[i]
+            self.data = newList
+        
+
     def append(self, value):
         """Appends value to the end of this list."""
         ### BEGIN SOLUTION
+        self.expand()
+        self.data[self.len] = value
+        self.len += 1
         ### END SOLUTION
 
     def insert(self, idx, value):
@@ -141,6 +152,15 @@ class ArrayList:
         list, as needed. Note that inserting a value at len(self) --- equivalent
         to appending the value --- is permitted. Raises IndexError if idx is invalid."""
         ### BEGIN SOLUTION
+        idx = self._normalize_idx(idx)
+        if idx > self.len:
+            raise IndexError
+        self.expand()#make bigger
+
+        for i in range(self.len,idx,-1):
+            self.data[i] = self.data[i-1]
+        self.data[idx] = value
+        self.len += 1        
         ### END SOLUTION
 
     def pop(self, idx=-1):
