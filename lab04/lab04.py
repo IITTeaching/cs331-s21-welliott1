@@ -273,7 +273,8 @@ class ArrayList:
         of other. RETURNING A THIRD LIST"""
         ### BEGIN SOLUTION
         new = self.copy()
-        return new.extend(other)
+        new.extend(other)
+        return new
         
         
         ### BEGIN SOLUTION
@@ -288,7 +289,7 @@ class ArrayList:
         contains the same values as this list."""
         ### BEGIN SOLUTION
         temp = ArrayList()
-        temp.data = ConstrainedList.create(self)
+        temp.data = ConstrainedList.create(self.data)
         temp.len = self.len
         return temp
         ### END SOLUTION
