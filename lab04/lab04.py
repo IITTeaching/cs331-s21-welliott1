@@ -167,12 +167,22 @@ class ArrayList:
         """Deletes and returns the element at idx (which is the last element,
         by default)."""
         ### BEGIN SOLUTION
+        temp = self.data[idx]
+        self.__delitem__(idx)
+        return temp
+
         ### END SOLUTION
 
     def remove(self, value):
         """Removes the first (closest to the front) instance of value from the
         list. Raises a ValueError if value is not found in the list."""
         ### BEGIN SOLUTION
+        if self.__contains__(value) == False:
+            raise ValueError() 
+        for i in range(0,self.len):
+            if self.data[i] == value:
+                self.__delitem__(i)
+                return
         ### END SOLUTION
 
 
@@ -182,13 +192,22 @@ class ArrayList:
         """Returns True if this ArrayList contains the same elements (in order) as
         other. If other is not an ArrayList, returns False."""
         ### BEGIN SOLUTION
+        if(self.len != other.len):
+            return False
+        for i in range(0,self.len):
+            if(self.data[i] != other.data[i]):
+                return False
+        return True
         ### END SOLUTION
 
     def __contains__(self, value):
         """Implements `val in self`. Returns true if value is found in this list."""
         ### BEGIN SOLUTION
+        for i in range(0,self.len):
+            if(self.data[i]==value):
+                return True
+        return False
         ### END SOLUTION
-
 
     ### queries ###
 
@@ -224,6 +243,15 @@ class ArrayList:
         specified, search through the end of the list for value. If value
         is not in the list, raise a ValueError."""
         ### BEGIN SOLUTION
+        
+        if(j==None):
+            j = self.len
+        i = self._normalize_idx(i)
+        j = self._normalize_idx(j)
+        for k in range(i,j):
+            if(self.data[k]==value):
+                return k
+        raise ValueError()
         ### END SOLUTION
 
     def count(self, value):
@@ -268,14 +296,12 @@ class ArrayList:
     def extend(self, other):
         """Adds all elements, in order, from other --- an Iterable --- to this list. MUTATING THIS LIST"""
         ### BEGIN SOLUTION
+        for elem in other:
+            self.append(elem)
         # For every_thing in other:
             #copy into this list (append)
         ### END SOLUTION
 
-    def extend(self, other):
-        """Adds all elements, in order, from other --- an Iterable --- to this list."""
-        ### BEGIN SOLUTION
-        ### END SOLUTION
 
 
     ### iteration ###
