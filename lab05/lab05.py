@@ -42,18 +42,44 @@ class LinkedList:
         """Implements `x = self[idx]`"""
         assert(isinstance(idx, int))
         ### BEGIN SOLUTION
+        idx = self._normalize_idx(idx)
+        if idx < 0 or idx >= self.length:
+            raise IndexError()
+        n = self.head.next
+        for i in range(0,idx):
+            n = n.next
+        return n.val
         ### END SOLUTION
 
     def __setitem__(self, idx, value):
         """Implements `self[idx] = x`"""
         assert(isinstance(idx, int))
         ### BEGIN SOLUTION
+        idx = self._normalize_idx(idx)
+        if idx < 0 or idx >= self.length:
+            raise IndexError()
+        n = self.head.next
+        for i in range(0,idx):
+            n = n.next
+        n.val = value
         ### END SOLUTION
 
     def __delitem__(self, idx):
         """Implements `del self[idx]`"""
         assert(isinstance(idx, int))
         ### BEGIN SOLUTION
+        idx = self._normalize_idx(idx)
+        if idx < 0 or idx >= self.length:
+            raise IndexError()
+        n = self.head.next
+        for i in range(0,idx-1):
+            n = n.next
+        
+        cur = n
+        nxt = cur.next
+        cur.next = nxt.next
+        (nxt.next).prior = cur
+        
         ### END SOLUTION
 
     ### cursor-based access ###
@@ -200,6 +226,10 @@ class LinkedList:
     def __iter__(self):
         """Supports iteration (via `iter(self)`)"""
         ### BEGIN SOLUTION
+        n = self.head.next
+        while n is not self.head:
+            yield n.val
+            n = n.next
         ### END SOLUTION
 
     ### reverse ###
