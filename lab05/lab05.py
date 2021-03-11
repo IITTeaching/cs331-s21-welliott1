@@ -66,20 +66,17 @@ class LinkedList:
         cur.next.prior = cur.prior
         self.length -= 1
         
-        ### END SOLUTION
 
     ### cursor-based access ###
 
     def cursor_get(self):
         """retrieves the value at the current cursor position"""
         assert self.cursor is not self.head
-        ### BEGIN SOLUTION
-        ### END SOLUTION
+        return self.cursor.val
 
     def cursor_set(self, idx):
         """sets the cursor to the node at the provided index"""
-        ### BEGIN SOLUTION
-        ### END SOLUTION
+        self.cursor = self.__getNode__(idx)
 
     def cursor_move(self, offset):
         """moves the cursor forward or backward by the provided offset
@@ -88,8 +85,19 @@ class LinkedList:
         cursor will just "wrap around" the list, skipping over the sentinel
         node as needed"""
         assert len(self) > 0
-        ### BEGIN SOLUTION
-        ### END SOLUTION
+        if offset==0:
+            return
+        elif offset<0:
+            for i in range(0,abs(offset)):
+                self.cursor = self.cursor.prior
+                if self.cursor == self.head:
+                    self.cursor = self.cursor.prior
+        else:
+            for k in range(0,offset):
+                self.cursor = self.cursor.next
+                if self.cursor == self.head:
+                    self.cursor = self.cursor.next
+
 
     def cursor_insert(self, value):
         """inserts a new value after the cursor and sets the cursor to the
