@@ -38,47 +38,32 @@ class LinkedList:
                 nidx = 0
         return nidx
 
-    def __getitem__(self, idx):
-        """Implements `x = self[idx]`"""
+    def __getNode__(self,idx):
         assert(isinstance(idx, int))
-        ### BEGIN SOLUTION
         idx = self._normalize_idx(idx)
         if idx < 0 or idx >= self.length:
             raise IndexError()
         n = self.head.next
         for i in range(0,idx):
             n = n.next
-        return n.val
-        ### END SOLUTION
+        return n
+
+    def __getitem__(self, idx):
+        return self.__getNode__(idx).val
+
 
     def __setitem__(self, idx, value):
         """Implements `self[idx] = x`"""
-        assert(isinstance(idx, int))
-        ### BEGIN SOLUTION
-        idx = self._normalize_idx(idx)
-        if idx < 0 or idx >= self.length:
-            raise IndexError()
-        n = self.head.next
-        for i in range(0,idx):
-            n = n.next
-        n.val = value
-        ### END SOLUTION
+        self.__getNode__(idx).val = value
 
     def __delitem__(self, idx):
         """Implements `del self[idx]`"""
         assert(isinstance(idx, int))
-        ### BEGIN SOLUTION
-        idx = self._normalize_idx(idx)
-        if idx < 0 or idx >= self.length:
-            raise IndexError()
-        n = self.head.next
-        for i in range(0,idx-1):
-            n = n.next
-        
-        cur = n
-        nxt = cur.next
-        cur.next = nxt.next
-        (nxt.next).prior = cur
+        cur = self.__getNode__(idx)
+        back = cur.prior
+        cur.prior.next = cur.next
+        cur.next.prior = cur.prior
+        self.length -= 1
         
         ### END SOLUTION
 
