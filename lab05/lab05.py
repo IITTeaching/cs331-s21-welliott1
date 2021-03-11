@@ -39,62 +39,44 @@ class LinkedList:
                 nidx = 0
         return nidx
 
-    def __getitem__(self, idx):
-        """Implements `x = self[idx]`"""
+    def __getNode__(self,idx):
         assert(isinstance(idx, int))
-        ### BEGIN SOLUTION
         idx = self._normalize_idx(idx)
         if idx < 0 or idx >= self.length:
             raise IndexError()
         n = self.head.next
         for i in range(0,idx):
             n = n.next
-        return n.val
-        ### END SOLUTION
+        return n
+
+    def __getitem__(self, idx):
+        return self.__getNode__(idx).val
+
 
     def __setitem__(self, idx, value):
         """Implements `self[idx] = x`"""
-        assert(isinstance(idx, int))
-        ### BEGIN SOLUTION
-        idx = self._normalize_idx(idx)
-        if idx < 0 or idx >= self.length:
-            raise IndexError()
-        n = self.head.next
-        for i in range(0,idx):
-            n = n.next
-        n.val = value
-        ### END SOLUTION
+        self.__getNode__(idx).val = value
 
     def __delitem__(self, idx):
         """Implements `del self[idx]`"""
         assert(isinstance(idx, int))
-        ### BEGIN SOLUTION
-        idx = self._normalize_idx(idx)
-        if idx < 0 or idx >= self.length:
-            raise IndexError()
-        n = self.head.next
-        for i in range(0,idx-1):
-            n = n.next
+        cur = self.__getNode__(idx)
+        back = cur.prior
+        cur.prior.next = cur.next
+        cur.next.prior = cur.prior
+        self.length -= 1
         
-        cur = n
-        nxt = cur.next
-        cur.next = nxt.next
-        (nxt.next).prior = cur
-        
-        ### END SOLUTION
 
     ### cursor-based access ###
 
     def cursor_get(self):
         """retrieves the value at the current cursor position"""
         assert self.cursor is not self.head
-        ### BEGIN SOLUTION
-        ### END SOLUTION
+        return self.cursor.val
 
     def cursor_set(self, idx):
         """sets the cursor to the node at the provided index"""
-        ### BEGIN SOLUTION
-        ### END SOLUTION
+        self.cursor = self.__getNode__(idx)
 
     def cursor_move(self, offset):
         """moves the cursor forward or backward by the provided offset
@@ -103,8 +85,19 @@ class LinkedList:
         cursor will just "wrap around" the list, skipping over the sentinel
         node as needed"""
         assert len(self) > 0
-        ### BEGIN SOLUTION
-        ### END SOLUTION
+        if offset==0:
+            return
+        elif offset<0:
+            for i in range(0,abs(offset)):
+                self.cursor = self.cursor.prior
+                if self.cursor == self.head:
+                    self.cursor = self.cursor.prior
+        else:
+            for k in range(0,offset):
+                self.cursor = self.cursor.next
+                if self.cursor == self.head:
+                    self.cursor = self.cursor.next
+
 
     def cursor_insert(self, value):
         """inserts a new value after the cursor and sets the cursor to the
