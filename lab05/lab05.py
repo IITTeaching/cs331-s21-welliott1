@@ -115,6 +115,8 @@ class LinkedList:
         self.cursor.prior.next = self.cursor.next
         self.cursor.next.prior = self.cursor.prior
         self.cursor = self.cursor.next
+        if(self.cursor == self.head):
+            self.cursor = self.cursor.next
         self.length-=1
         
         
