@@ -114,9 +114,7 @@ class LinkedList:
         assert self.cursor is not self.head and len(self) > 0
         self.cursor.prior.next = self.cursor.next
         self.cursor.next.prior = self.cursor.prior
-        
         self.cursor = self.cursor.next
-
         self.length-=1
 
     ### stringification ###
@@ -316,8 +314,13 @@ class LinkedList:
 
         E.g., for [1,2,3] you shoudl return [3,2,1].
         """
-        ### BEGIN SOLUTION
-        ### END SOLUTION
+        assert self.length > 0
+        ans = LinkedList()
+        cur = self.head.next
+        for i in range(0, self.length):
+            ans.prepend(cur.val)
+            cur = cur.next
+        return ans
 
 
 ################################################################################
