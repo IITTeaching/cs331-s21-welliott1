@@ -49,8 +49,19 @@ def check_delimiters(expr):
     """Returns True if and only if `expr` contains only correctly matched delimiters, else returns False."""
     delim_openers = '{([<'
     delim_closers = '})]>'
+    s = Stack()
+    delim_list = [x for x in expr if x != " "]
+    delim_list = expr.split()
+    for x in delim_list:
+        if x in delim_openers:
+            s.push(x)
+        elif x in delim_closers:
+            temp = s.pop()
 
     ### BEGIN SOLUTION
+    #Push opens
+    #pop them and check when you come across closed
+
     ### END SOLUTION
 
 ################################################################################
@@ -167,19 +178,23 @@ class Queue:
     def enqueue(self, val):
         ### BEGIN SOLUTION
         ### END SOLUTION
+        pass
 
     def dequeue(self):
         ### BEGIN SOLUTION
         ### END SOLUTION
+        pass
 
     def resize(self, newsize):
         assert(len(self.data) < newsize)
         ### BEGIN SOLUTION
         ### END SOLUTION
+        pass
 
     def empty(self):
         ### BEGIN SOLUTION
         ### END SOLUTION
+        pass
 
     def __bool__(self):
         return not self.empty()
@@ -195,6 +210,7 @@ class Queue:
     def __iter__(self):
         ### BEGIN SOLUTION
         ### END SOLUTION
+        pass
 
 ################################################################################
 # QUEUE IMPLEMENTATION - TEST CASES
