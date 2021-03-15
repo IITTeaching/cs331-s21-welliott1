@@ -281,16 +281,18 @@ class LinkedList:
     def clear(self):
         """Removes all elements from this list."""
         self.length = 0
-        self.head.next = None
-        self.head.prior = None
+        self.head.next = self.head
+        self.head.prior = self.head
 
 
     def copy(self):
         """Returns a new LinkedList instance (with separate Nodes), that
         contains the same values as this list."""
         temp =  LinkedList()
-        temp.head = self.head
-        temp.length = self.length
+        cur = self.head.next
+        for i in range(0,self.length):
+            temp.append(cur.val)
+            cur = cur.next
         return temp
 
     def extend(self, other):
