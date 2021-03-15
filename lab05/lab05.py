@@ -39,7 +39,7 @@ class LinkedList:
                 nidx = 0
         return nidx
 
-    def __getNode__(self,idx):
+    def _getNode_(self,idx):
         assert(isinstance(idx, int))
         idx = self._normalize_idx(idx)
         if idx < 0 or idx >= self.length:
@@ -50,17 +50,17 @@ class LinkedList:
         return temp
 
     def __getitem__(self, idx):
-        return self.__getNode__(idx).val
+        return self._getNode_(idx).val
 
 
     def __setitem__(self, idx, value):
         """Implements `self[idx] = x`"""
-        self.__getNode__(idx).val = value
+        self._getNode_(idx).val = value
 
     def __delitem__(self, idx):
         """Implements `del self[idx]`"""
         assert(isinstance(idx, int))
-        cur = self.__getNode__(idx)
+        cur = self._getNode_(idx)
         back = cur.prior
         cur.prior.next = cur.next
         cur.next.prior = cur.prior
@@ -76,7 +76,7 @@ class LinkedList:
 
     def cursor_set(self, idx):
         """sets the cursor to the node at the provided index"""
-        self.cursor = self.__getNode__(idx)
+        self.cursor = self._getNode_(idx)
 
     def cursor_move(self, offset):
         """moves the cursor forward or backward by the provided offset
@@ -116,6 +116,8 @@ class LinkedList:
         self.cursor.next.prior = self.cursor.prior
         self.cursor = self.cursor.next
         self.length-=1
+        
+        
 
     ### stringification ###
 
@@ -150,7 +152,7 @@ class LinkedList:
         if(idx==self.length):
             self.append(value)
         else:
-            this = self.__getNode__(idx)
+            this = self._getNode_(idx)
             temp = LinkedList.Node(value, prior=this.prior, next=this)
             this.prior.next = temp
             this.prior = temp
@@ -160,7 +162,7 @@ class LinkedList:
     def pop(self, idx=-1):
         """Deletes and returns the element at idx (which is the last element,
         by default)."""
-        this = self.__getNode__(idx)
+        this = self._getNode_(idx)
         this.prior.next = this.next
         this.next.prior = this.prior
         self.length -= 1
@@ -247,7 +249,7 @@ class LinkedList:
         if i>=self.length or j>self.length:
             raise ValueError()
 
-        cur = self.__getNode__(i)
+        cur = self._getNode_(i)
         for k in range(i,j):
             if(cur.val == value):
                 return k
