@@ -49,20 +49,23 @@ def check_delimiters(expr):
     """Returns True if and only if `expr` contains only correctly matched delimiters, else returns False."""
     delim_openers = '{([<'
     delim_closers = '})]>'
+
     s = Stack()
     delim_list = [x for x in expr if x != " "]
-    delim_list = expr.split()
+
     for x in delim_list:
         if x in delim_openers:
             s.push(x)
         elif x in delim_closers:
-            temp = s.pop()
+            temp = s.peek()
+            if temp == None:
+                return False
+            if (delim_openers.index(temp) != delim_closers.index(x)) or s.empty():
+                return False
+            s.pop()
+    return s.empty()
+                
 
-    ### BEGIN SOLUTION
-    #Push opens
-    #pop them and check when you come across closed
-
-    ### END SOLUTION
 
 ################################################################################
 # CHECK DELIMITERS - TEST CASES
