@@ -134,9 +134,32 @@ def infix_to_postfix(expr):
     ops = Stack()
     postfix = []
     toks = expr.split()
-    ### BEGIN SOLUTION
-    ### END SOLUTION
+    
+    for token in toks:
+        if token.isdigit():
+            postfix.append(token)
+
+        elif ops.empty() or ops.peek()=='(':
+            ops.push(token)
+
+        elif token=='(':
+            ops.push(token)
+
+        elif token==')':
+            while (not ops.empty()) and ops.peek()!='(':
+                postfix.append(ops.pop())
+            ops.pop()
+
+        elif token in prec:
+            while not ops.empty() and prec[token]<=prec[ops.peek()]:
+                postfix.append(ops.pop())
+            ops.push(token)
+            
+    for n in ops:
+        postfix.append(ops.pop())
+
     return ' '.join(postfix)
+
 
 ################################################################################
 # INFIX -> POSTFIX CONVERSION - TEST CASES
