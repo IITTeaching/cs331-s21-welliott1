@@ -198,29 +198,47 @@ class Queue:
         self.head = -1
         self.tail = -1
 
-    ### BEGIN SOLUTION
-    ### END SOLUTION
+    
 
     def enqueue(self, val):
-        ### BEGIN SOLUTION
-        ### END SOLUTION
-        pass
+        if self.isFull():
+            raise RuntimeError()
+        if self.head == -1:
+            self.head = 0
+        self.tail = (self.tail + 1) % len(self.data)
+        self.data[self.tail] = val
+
 
     def dequeue(self):
-        ### BEGIN SOLUTION
-        ### END SOLUTION
-        pass
+        
+        if self.empty():
+            raise RuntimeError()
+        temp = self.data[self.head]
+        self.data[self.head] = None
+        self.head = (self.head + 1) % len(self.data)
+        if self.empty():
+            self.head = -1
+            self.tail = -1
+        return temp
 
     def resize(self, newsize):
         assert(len(self.data) < newsize)
-        ### BEGIN SOLUTION
-        ### END SOLUTION
-        pass
+        
+        if self.tail>self.head:
+            extensionList = [None] * (newsize-len(self.data))
+            self.data.extend(extensionList)
+            self.data[0:((self.tail+1)-self.head)] = self.data[self.head:self.tail+1]
+            self.tail = self.tail - self.head
+            self.head = 0        
+        else:
+            self.data = self.data[self.head:]+self.data[:self.tail+1]+[None]*(newsize-self.tail-len(self.data)+self.head)
+            self.head = 0
+            self.tail = len(self.data[self.head:]+self.data[:self.tail+1])
+
+        
 
     def empty(self):
-        ### BEGIN SOLUTION
-        ### END SOLUTION
-        pass
+        return len(self.data) == self.data.count(None)
 
     def __bool__(self):
         return not self.empty()
@@ -234,9 +252,12 @@ class Queue:
         return str(self)
 
     def __iter__(self):
-        ### BEGIN SOLUTION
-        ### END SOLUTION
-        pass
+        for x in range(self.head, self.tail + 1):
+            yield self.data[x]
+
+    def isFull(self):
+        return self.data.count(None) == 0
+
 
 ################################################################################
 # QUEUE IMPLEMENTATION - TEST CASES
