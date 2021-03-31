@@ -40,7 +40,7 @@ class ExtensibleHashTable:
 
     def __setitem__(self, key, value):
         
-        if self.nitems/self.n_buckets >= self.fillfactor:
+        if self.nitems/self.n_buckets > self.fillfactor:
             self.extend()
         
         h = hash(key) % self.n_buckets
@@ -56,7 +56,7 @@ class ExtensibleHashTable:
         
 
     def __delitem__(self, key):
-        h = hash(key) % self.n_buckets
+        h = self.find_bucket(key)
         self.buckets[h] = None
         self.nitems -= 1
         
