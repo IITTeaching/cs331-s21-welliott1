@@ -13,23 +13,53 @@ class ExtensibleHashTable:
         self.nitems = 0
 
     def find_bucket(self, key):
-        # BEGIN_SOLUTION
-        # END_SOLUTION
-        pass
+        
+        h = hash(key) % self.n_buckets
+        try:
+            while self.buckets[h][0] != key:
+                h += 1
+                if h == self.n_buckets:
+                    h = 0
+            assert self.buckets[h] and self.buckets[h][0] == key
+            return h
+        except:
+            raise KeyError()
+        
 
     def __getitem__(self,  key):
-        h = hash(key) % self.n_buckets
-        assert self.buckets[h]
-        return self.buckets[h]
+        h = self.find_bucket(key)
+        assert self.buckets[h] and self.buckets[h][0] == key
+        return self.buckets[h][1]
+
+    def extend(self):
+        newdata = ExtensibleHashTable(n_buckets=self.n_buckets*2)
+        for el in self.items():
+            newdata[el[0]] = el[1]
+        self.n_buckets *= 2
+        self.buckets = newdata.buckets
 
     def __setitem__(self, key, value):
+        
+        if self.nitems/self.n_buckets >= self.fillfactor:
+            self.extend()
+        
         h = hash(key) % self.n_buckets
-        self.data[h] = value
+        while self.buckets[h] and self.buckets[h][0]:
+            if self.buckets[h][0] == key:
+                break
+            h += 1
+            if h == self.n_buckets:
+                h = 0
+        else:
+            self.nitems += 1
+        self.buckets[h] = (key, value)
+        
 
     def __delitem__(self, key):
-        # BEGIN SOLUTION
-        # END SOLUTION
-        pass
+        h = hash(key) % self.n_buckets
+        self.buckets[h] = None
+        self.nitems -= 1
+        
 
     def __contains__(self, key):
         try:
@@ -45,26 +75,38 @@ class ExtensibleHashTable:
         return self.__len__() != 0
 
     def __iter__(self):
-        ### BEGIN SOLUTION
-        ### END SOLUTION
-        pass
+        slotcount = 0
+        itemcount = 0
+        while itemcount < self.nitems and slotcount < self.n_buckets:
+            if self.buckets[slotcount] and self.buckets[slotcount][0] != None:
+                yield self.buckets[slotcount][0]
+                itemcount += 1
+            slotcount += 1
 
     def keys(self):
         return iter(self)
 
     def values(self):
-        ### BEGIN SOLUTION
-        ### END SOLUTION
-        pass
+        slotcount = 0
+        itemcount = 0
+        while itemcount < self.nitems and slotcount < self.n_buckets:
+            if self.buckets[slotcount] and self.buckets[slotcount][0] != None:
+                yield self.buckets[slotcount][1]
+                itemcount += 1
+            slotcount += 1
 
     def items(self):
-        ### BEGIN SOLUTION
-        ### END SOLUTION
-        pass
+        slotcount = 0
+        itemcount = 0
+        while itemcount < self.nitems and slotcount < self.n_buckets:
+            if self.buckets[slotcount] and self.buckets[slotcount][0] != None:
+                yield self.buckets[slotcount]
+                itemcount += 1
+            slotcount += 1
 
     def __str__(self):
         return '{ ' + ', '.join(str(k) + ': ' + str(v) for k, v in self.items()) + ' }'
-        pass
+        
 
     def __repr__(self):
         return str(self)
