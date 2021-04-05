@@ -24,10 +24,12 @@ class Heap:
 
     def heapify(self, idx=0):
         ### BEGIN SOLUTION
+        pass
         ### END SOLUTION
 
     def add(self, x):
         ### BEGIN SOLUTION
+        pass
         ### END SOLUTION
 
     def peek(self):
@@ -130,6 +132,7 @@ def test_key_heap_5():
 ################################################################################
 def running_medians(iterable):
     ### BEGIN SOLUTION
+    pass
     ### END SOLUTION
 
 ################################################################################
@@ -174,11 +177,13 @@ def test_median_3():
 ################################################################################
 def topk(items, k, keyf):
     ### BEGIN SOLUTION
+    pass
     ### END SOLUTION
 
 ################################################################################
 # TESTS
 ################################################################################
+
 def get_age(s):
     return s[1]
 
