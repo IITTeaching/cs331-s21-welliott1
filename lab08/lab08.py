@@ -35,32 +35,26 @@ class Heap:
         self.data[child] = parent_temp
 
     def heapify(self, idx=0):
-        if idx == 0: #percolate down
-            swapee = None
-            while self.posExists(self._left(idx)):
+        swapee = None
+        while self.posExists(self._left(idx)):
+            swapee = self._right(idx)
+            if self.posExists(self._right(idx)) and self.key(self.data[self._right(idx)]) > self.key(self.data[self._left(idx)]):
                 swapee = self._right(idx)
-                if self.posExists(self._right(idx)) and self.key(self.data[self._right(idx)]) > self.key(self.data[self._left(idx)]):
-                    swapee = self._right(idx)
-                if self.key(self.data[idx]) > self.key(self.data[swapee]):
-                    break
-                else:
-                    self.swap(idx,swapee)
-                idx = swapee
-        elif idx == len(self.data) - 1:
-            
-            while self.hasParent(idx) and self.key(self.data[self._parent(idx)]) < self.key(self.data[idx]):
-                temp = self._parent(idx)
-                self.swap(self._parent(idx),idx)
-                idx = temp
-        else:
-            raise IndexError("heapify called in the middle of the heap")
-
-        
+            if self.key(self.data[idx]) > self.key(self.data[swapee]):
+                break
+            else:
+                self.swap(idx,swapee)
+            idx = swapee
 
 
     def add(self, x):
         self.data.append(x)
-        self.heapify(len(self.data)-1)
+        idx = len(self.data)-1
+        while self.hasParent(idx) and self.key(self.data[self._parent(idx)]) < self.key(self.data[idx]):
+                temp = self._parent(idx)
+                self.swap(self._parent(idx),idx)
+                idx = temp
+
 
     def peek(self):
         return self.data[0]
