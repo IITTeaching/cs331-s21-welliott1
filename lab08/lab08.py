@@ -25,6 +25,9 @@ class Heap:
     def posExists(self,n):
         return n < len(self.data)
 
+    def hasParent(self,n):
+        return n >-1
+
     def swap(self,parent,child):
         parent_temp = self.data[parent]
         child_temp = self.data[child]
@@ -35,16 +38,17 @@ class Heap:
         if idx == 0: #percolate down
             swapee = None
             while self.posExists(self._left(idx)):
+                swapee = self._right(idx)
                 if self.posExists(self._right(idx)) and self.key(self.data[self._right(idx)]) > self.key(self.data[self._left(idx)]):
                     swapee = self._right(idx)
-                else:
-                    swapee = self._left(idx)
                 if self.key(self.data[idx]) > self.key(self.data[swapee]):
                     break
-                self.swap(idx,swapee)
+                else:
+                    self.swap(idx,swapee)
                 idx = swapee
         elif idx == len(self.data) - 1:
-            while self.posExists(self._parent(idx)) and self.key(self.data[self.parent(idx)]) < self.key(self.data[idx]):
+            
+            while self.hasParent(idx) and self.key(self.data[self._parent(idx)]) < self.key(self.data[idx]):
                 temp = self._parent(idx)
                 self.swap(self._parent(idx),idx)
                 idx = temp
