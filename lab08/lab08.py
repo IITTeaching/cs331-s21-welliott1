@@ -26,7 +26,7 @@ class Heap:
         return n < len(self.data)
 
     def hasParent(self,n):
-        return n >-1
+        return (n-1)//2 >=0
 
     def swap(self,parent,child):
         parent_temp = self.data[parent]
@@ -35,32 +35,26 @@ class Heap:
         self.data[child] = parent_temp
 
     def heapify(self, idx=0):
-        if idx == 0: #percolate down
-            swapee = None
-            while self.posExists(self._left(idx)):
+        swapee = None
+        while self.posExists(self._left(idx)):
+            swapee = self._left(idx)
+            if self.posExists(self._right(idx)) and self.key(self.data[self._right(idx)]) > self.key(self.data[self._left(idx)]):
                 swapee = self._right(idx)
-                if self.posExists(self._right(idx)) and self.key(self.data[self._right(idx)]) > self.key(self.data[self._left(idx)]):
-                    swapee = self._right(idx)
-                if self.key(self.data[idx]) > self.key(self.data[swapee]):
-                    break
-                else:
-                    self.swap(idx,swapee)
-                idx = swapee
-        elif idx == len(self.data) - 1:
-            
-            while self.hasParent(idx) and self.key(self.data[self._parent(idx)]) < self.key(self.data[idx]):
-                temp = self._parent(idx)
-                self.swap(self._parent(idx),idx)
-                idx = temp
-        else:
-            raise IndexError("heapify called in the middle of the heap")
-
-        
+            if self.key(self.data[idx]) > self.key(self.data[swapee]):
+                break
+            else:
+                self.swap(idx,swapee)
+            idx = swapee
 
 
     def add(self, x):
         self.data.append(x)
-        self.heapify(len(self.data)-1)
+        idx = len(self.data)-1
+        while self.hasParent(idx) and self.key(self.data[self._parent(idx)]) < self.key(self.data[idx]):
+                temp = self._parent(idx)
+                self.swap(self._parent(idx),idx)
+                idx = temp
+
 
     def peek(self):
         return self.data[0]
@@ -161,9 +155,43 @@ def test_key_heap_5():
 # 2. MEDIAN
 ################################################################################
 def running_medians(iterable):
-    ### BEGIN SOLUTION
-    pass
-    ### END SOLUTION
+    medians = []
+    higher_min_heap = Heap(lambda x: -1 * x)
+    lower_max_heap = Heap()
+    median = None
+    for i,x in enumerate(iterable):
+        if len(medians)==0:
+            median = iterable[0]
+            higher_min_heap.add(x)
+            medians.append(iterable[0])
+        elif x>median:
+            higher_min_heap.add(x)
+        elif x<median:
+            lower_max_heap.add(x)
+        else:
+            if len(lower_max_heap) <= len(higher_min_heap):
+                lower_max_heap.add(x)
+            else:
+                higher_min_heap.add(x)
+            
+
+        if abs(len(higher_min_heap) - len(lower_max_heap)) > 1:
+            if len(higher_min_heap) > len(lower_max_heap):
+                while len(higher_min_heap) - len(lower_max_heap) >1:
+                    lower_max_heap.add(higher_min_heap.pop())
+            else:
+                while len(lower_max_heap) - len(higher_min_heap) >1:
+                    higher_min_heap.add(lower_max_heap.pop())
+        if i>0:
+            if len(higher_min_heap) == len(lower_max_heap):
+                median = ((higher_min_heap.peek() + lower_max_heap.peek())) / 2
+            elif len(higher_min_heap) > len(lower_max_heap):
+                median = higher_min_heap.peek()
+            elif len(lower_max_heap) > len(higher_min_heap):
+                median = lower_max_heap.peek()
+            medians.append(median)
+
+    return medians
 
 ################################################################################
 # TESTS
