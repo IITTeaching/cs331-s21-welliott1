@@ -22,15 +22,41 @@ class Heap:
     def _right(idx):
         return idx*2+2
 
+    def posExists(self,n):
+        return n < len(self.data)
+
+    def swap(self,parent,child):
+        parent_temp = self.data[parent]
+        child_temp = self.data[child]
+        self.data[parent] = child_temp
+        self.data[child] = parent_temp
+
     def heapify(self, idx=0):
-        ### BEGIN SOLUTION
-        pass
-        ### END SOLUTION
+        if idx == 0: #percolate down
+            swapee = None
+            while self.posExists(self._left(idx)):
+                if self.posExists(self._right(idx)) and self.key(self.data[self._right(idx)]) > self.key(self.data[self._left(idx)]):
+                    swapee = self._right(idx)
+                else:
+                    swapee = self._left(idx)
+                if self.key(self.data[idx]) > self.key(self.data[swapee]):
+                    break
+                self.swap(idx,swapee)
+                idx = swapee
+        elif idx == len(self.data) - 1:
+            while self.posExists(self._parent(idx)) and self.key(self.data[self.parent(idx)]) < self.key(self.data[idx]):
+                temp = self._parent(idx)
+                self.swap(self._parent(idx),idx)
+                idx = temp
+        else:
+            raise IndexError("heapify called in the middle of the heap")
+
+        
+
 
     def add(self, x):
-        ### BEGIN SOLUTION
-        pass
-        ### END SOLUTION
+        self.data.append(x)
+        self.heapify(len(self.data)-1)
 
     def peek(self):
         return self.data[0]
