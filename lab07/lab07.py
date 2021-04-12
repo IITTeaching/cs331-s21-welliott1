@@ -57,7 +57,7 @@ class ExtensibleHashTable:
 
     def __delitem__(self, key):
         h = self.find_bucket(key)
-        self.buckets[h] = None
+        self.buckets[h] = (None, None)
         self.nitems -= 1
         
 
