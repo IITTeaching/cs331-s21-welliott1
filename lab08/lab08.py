@@ -234,9 +234,18 @@ def test_median_3():
 # 3. TOP-K
 ################################################################################
 def topk(items, k, keyf):
-    ### BEGIN SOLUTION
-    pass
-    ### END SOLUTION
+    heap = Heap(lambda x: -1 * keyf(x))
+    for item in items: 
+        if len(heap) < k: 
+            heap.add(item)
+        else:            
+            minimum = keyf(heap.peek()) #it is a min heap
+            temp = keyf(item)
+            if temp > minimum:
+                heap.pop()
+                heap.add(item)
+    answer = list(reversed(list(heap)))
+    return answer
 
 ################################################################################
 # TESTS
