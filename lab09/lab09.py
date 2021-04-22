@@ -53,13 +53,31 @@ class HBStree:
         KeyError, if key does not exist.
         """
         # BEGIN SOLUTION
+        def search(node,key):
+            if not node:
+                raise KeyError()
+            if node == key:
+                return key
+            elif key<node.val:
+                return search(node.left(),key)
+            elif key>node.val:
+                return search(node.right(),key)
+
+        return search(self.root_versions(-1),key)    
         # END SOLUTION
+
+    
+
 
     def __contains__(self, el):
         """
         Return True if el exists in the current version of the tree.
         """
         # BEGIN SOLUTION
+        if self.__getitem__(el) != None:
+            return True
+        else:
+            return False
         # END SOLUTION
 
     def insert(self,key):
@@ -69,6 +87,11 @@ class HBStree:
         from creating a new version.
         """
         # BEGIN SOLUTION
+        if self.__contains__(key):
+            return
+        
+        
+
         # END SOLUTION
 
     def delete(self,key):
