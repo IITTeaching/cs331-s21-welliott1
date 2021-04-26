@@ -54,16 +54,27 @@ class HBStree:
         """
         # BEGIN SOLUTION
         def search(node,key):
-            if not node:
-                raise KeyError()
-            if node == key:
+            if node == None:
+                raise KeyError
+            if node.val == key:
                 return key
             elif key<node.val:
-                return search(node.left(),key)
+                if node.left():
+                    return search(node.left(),key)
+                else:
+                    raise KeyError
             elif key>node.val:
-                return search(node.right(),key)
+                if node.right():
+                    return search(node.right(),key)
+                else:
+                    raise KeyError
+            
 
-        return search(self.root_versions(-1),key)    
+        if self.get_current_root():
+            return search(self.get_current_root(),key)    
+        else:
+            raise KeyError
+            
         # END SOLUTION
 
     
@@ -73,10 +84,12 @@ class HBStree:
         """
         Return True if el exists in the current version of the tree.
         """
+        
         # BEGIN SOLUTION
-        if self.__getitem__(el) != None:
+        try: 
+            self.__getitem__(el)
             return True
-        else:
+        except KeyError:
             return False
         # END SOLUTION
 
@@ -87,16 +100,38 @@ class HBStree:
         from creating a new version.
         """
         # BEGIN SOLUTION
-        if self.__contains__(key):
-            return
+        
+        def insert_helper(node,key):
+            if node == None:
+                return self.INode(key,None,None)
+            elif key<node.val:
+                child = insert_helper(node.left())
+                parent = self.INode(node.val,child,node.right())
+                
+            elif key>node.val:
+                child = insert_helper(node.right())
+                parent = self.INode(node.val,node.left(),child)
+                
+        
+        if not self.__contains__(key):
+            newRoot = insert_helper(self.get_current_root(),key)
+            self.root_versions.append(newRoot)
         
         
+        
+            
+            
+        
+
 
         # END SOLUTION
 
     def delete(self,key):
         """Delete key from the tree, creating a new version of the tree. If key does not exist in the current version of the tree, then do nothing and refrain from creating a new version."""
         # BEGIN SOLUTION
+        if self.__contains__(key):
+            return
+        
         # END SOLUTION
 
     @staticmethod
@@ -158,6 +193,13 @@ class HBStree:
         """
         return self.version_iter()
 
+    def put_in_order(self, n, l):
+        if n:
+            self.put_in_order(n.left(), l)
+            l.append(n.val)
+            self.put_in_order(n.right(), l)
+        return l
+
     def version_iter(self, timetravel=0):
         """
         Return an iterator that allows sorted access to the nodes of a past
@@ -167,8 +209,14 @@ class HBStree:
         """
         if timetravel < 0 or timetravel >= len(self.root_versions):
             raise IndexError(f"valid versions for time travel are 0 to {len(self.root_versions) -1}, but was {timetravel}")
-        # BEGIN SOLUTION
-        # END SOLUTION
+        
+        node = self.root_versions[self.num_versions()-timetravel-1]
+        l = self.put_in_order(node, [])
+        for i in l:
+            yield i
+
+
+    
 
     @staticmethod
     def stringify_subtree(root):
