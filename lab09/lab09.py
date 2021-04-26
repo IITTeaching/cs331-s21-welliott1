@@ -78,8 +78,27 @@ class HBStree:
         # END SOLUTION
 
     
-
-
+    def gimme_Item(self, key):
+        def search(node,key):
+            if node == None:
+                raise KeyError
+            if node.val == key:
+                return node
+            elif key<node.val:
+                if node.left:
+                    return search(node.left,key)
+                else:
+                    raise KeyError
+            elif key>node.val:
+                if node.right:
+                    return search(node.right,key)
+                else:
+                    raise KeyError
+            
+        if self.get_current_root():
+            return search(self.get_current_root(),key)    
+        else:
+            raise KeyError
     def __contains__(self, el):
         """
         Return True if el exists in the current version of the tree.
@@ -100,17 +119,20 @@ class HBStree:
         from creating a new version.
         """
         # BEGIN SOLUTION
+
+        
         
         def insert_helper(node,key):
             if node == None:
                 return self.INode(key,None,None)
             elif key<node.val:
                 child = insert_helper(node.left,key)
-                parent = self.INode(node.val,child,node.right)
-                
+                parent = self.INode(node.val,child,node.right)  
+                return parent
             elif key>node.val:
                 child = insert_helper(node.right,key)
                 parent = self.INode(node.val,node.left,child)
+                return parent
                 
         
         if not self.__contains__(key):
@@ -129,9 +151,31 @@ class HBStree:
     def delete(self,key):
         """Delete key from the tree, creating a new version of the tree. If key does not exist in the current version of the tree, then do nothing and refrain from creating a new version."""
         # BEGIN SOLUTION
-        if self.__contains__(key):
-            return
         
+        
+        def delete_helper(node,key):
+            if node == None:
+                return None
+            
+        if  self.__contains__(key):
+                node = self.gimme_Item(key) #get item to delete
+                nodeCopy = node
+
+                #get node to swap
+                if (node.left and not node.right) or (node.left and node.right): #left and no right, or left and right; go left then all the way right
+                    node = node.left
+                    while node.right:
+                        node = node.right
+                elif not node.left and node.right: #no left, only right; go right then all the way left
+                    node = node.right
+                    while node.left:
+                        node = node.left
+                elif not node.left and not node.right: #no kids
+                    node = node
+                
+                newRoot = delete_helper(node,key)
+                self.root_versions.append(newRoot)
+
         # END SOLUTION
 
     @staticmethod
