@@ -59,13 +59,13 @@ class HBStree:
             if node.val == key:
                 return key
             elif key<node.val:
-                if node.left():
-                    return search(node.left(),key)
+                if node.left:
+                    return search(node.left,key)
                 else:
                     raise KeyError
             elif key>node.val:
-                if node.right():
-                    return search(node.right(),key)
+                if node.right:
+                    return search(node.right,key)
                 else:
                     raise KeyError
             
@@ -105,12 +105,12 @@ class HBStree:
             if node == None:
                 return self.INode(key,None,None)
             elif key<node.val:
-                child = insert_helper(node.left())
-                parent = self.INode(node.val,child,node.right())
+                child = insert_helper(node.left,key)
+                parent = self.INode(node.val,child,node.right)
                 
             elif key>node.val:
-                child = insert_helper(node.right())
-                parent = self.INode(node.val,node.left(),child)
+                child = insert_helper(node.right,key)
+                parent = self.INode(node.val,node.left,child)
                 
         
         if not self.__contains__(key):
@@ -195,9 +195,9 @@ class HBStree:
 
     def put_in_order(self, n, l):
         if n:
-            self.put_in_order(n.left(), l)
+            self.put_in_order(n.left, l)
             l.append(n.val)
-            self.put_in_order(n.right(), l)
+            self.put_in_order(n.right, l)
         return l
 
     def version_iter(self, timetravel=0):
