@@ -148,32 +148,44 @@ class HBStree:
 
         # END SOLUTION
 
+    '''def delete_helper(node,key):
+            if node == None:
+                return None'''
+            
+        
+
     def delete(self,key):
         """Delete key from the tree, creating a new version of the tree. If key does not exist in the current version of the tree, then do nothing and refrain from creating a new version."""
         # BEGIN SOLUTION
         
-        
-        def delete_helper(node,key):
-            if node == None:
-                return None
-            
         if  self.__contains__(key):
-                node = self.gimme_Item(key) #get item to delete
-                nodeCopy = node
-
-                #get node to swap
-                if (node.left and not node.right) or (node.left and node.right): #left and no right, or left and right; go left then all the way right
-                    node = node.left
-                    while node.right:
-                        node = node.right
-                elif not node.left and node.right: #no left, only right; go right then all the way left
-                    node = node.right
-                    while node.left:
-                        node = node.left
-                elif not node.left and not node.right: #no kids
-                    node = node
                 
-                newRoot = delete_helper(node,key)
+                def delete_helper(node,key):
+                    
+                    if node.val == key:
+                        if not node.left and not node.right:
+                            return None
+                        elif node.right and not node.left:
+                            return node.right
+                        elif node.left and not node.right:
+                            return node.left
+                        else:
+                            temp = node.left
+                            while temp.right:
+                                temp = temp.right
+                            node.val = temp.val
+                            delete(key,node.left)
+                    elif key < node.val:
+                        child = delete_helper(node.left,key)
+                        parent = self.INode(node.val,child,node.right)
+                        return parent
+                    elif key > node.val:
+                        child = delete_helper(node.right,key)
+                        parent = self.INode(node.val,node.left,child)
+                        return parent
+                        
+                
+                newRoot = delete_helper(self.get_current_root(),key)
                 self.root_versions.append(newRoot)
 
         # END SOLUTION
