@@ -38,13 +38,17 @@ class AVLTree:
     def rebalance(t):
         ### BEGIN SOLUTION
         if t.balance_factor() <= -2:
-            if(t.right.balance_factor()>0):
+            if(t.right and t.right.balance_factor()>0):
                 t.right.rotate_left()
             t.rotate_right()
+            return t
         elif t.balance_factor() >= 2:
-            if(t.left.balance_factor()<0):
+            if(t.left and t.left.balance_factor()<0):
                 t.left.rotate_right()
             t.rotate_left()
+            return t
+        else:
+            return t
         ### END SOLUTION
 
     def add(self, val):
@@ -56,15 +60,14 @@ class AVLTree:
                 return self.Node(val,None,None)
             elif val < node.val:
                 node.left = add_helper(node.left)
-                self.rebalance(node)
-                return node.left
+                return self.rebalance(node)
             elif val > node.val:
                 node.right = add_helper(node.right)
-                self.rebalance(node)
-                return node.right
+                return self.rebalance(node)
         
         self.root = add_helper(self.root)
         self.size += 1
+        self.pprint()
 
 
         ### END SOLUTION
