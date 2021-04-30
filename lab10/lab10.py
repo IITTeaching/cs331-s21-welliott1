@@ -15,7 +15,13 @@ class AVLTree:
 
         def rotate_left(self):
             ### BEGIN SOLUTION
+            n = self.right
+            self.val, n.val = n.val, self.val
+            self.right, n.right, self.left, n.left = n.right, n.left, n, self.left
             ### END SOLUTION
+
+        def balance_factor(self):
+            return self.height(self.right) - self.height(self.left)
 
         @staticmethod
         def height(n):
@@ -31,16 +37,45 @@ class AVLTree:
     @staticmethod
     def rebalance(t):
         ### BEGIN SOLUTION
+        if t.balance_factor() <= -2:
+            if(t.right and t.right.balance_factor()>0):
+                t.right.rotate_left()
+            t.rotate_right()
+            return t
+        elif t.balance_factor() >= 2:
+            if(t.left and t.left.balance_factor()<0):
+                t.left.rotate_right()
+            t.rotate_left()
+            return t
+        else:
+            return t
         ### END SOLUTION
 
     def add(self, val):
         assert(val not in self)
         ### BEGIN SOLUTION
+        
+        def add_helper(node):
+            if not node:
+                return self.Node(val,None,None)
+            elif val < node.val:
+                node.left = add_helper(node.left)
+                return self.rebalance(node)
+            elif val > node.val:
+                node.right = add_helper(node.right)
+                return self.rebalance(node)
+        
+        self.root = add_helper(self.root)
+        self.size += 1
+        self.pprint()
+
+
         ### END SOLUTION
 
     def __delitem__(self, val):
         assert(val in self)
         ### BEGIN SOLUTION
+        pass
         ### END SOLUTION
 
     def __contains__(self, val):
