@@ -173,8 +173,8 @@ class HBStree:
                             temp = node.left
                             while temp.right:
                                 temp = temp.right
-                            node.val = temp.val
-                            delete(key,node.left)
+                            node.val, temp.val = temp.val, node.val
+                            delete_helper(key,node.left)
                     elif key < node.val:
                         child = delete_helper(node.left,key)
                         parent = self.INode(node.val,child,node.right)

@@ -74,7 +74,31 @@ class AVLTree:
     def __delitem__(self, val):
         assert(val in self)
         ### BEGIN SOLUTION
-        pass
+        
+        def del_helper(node, val):
+            if node.val == val:
+                if not node.left and not node.right:
+                    return None
+                elif node.right and not node.left:
+                    return node.right
+                elif node.left and not node.right:
+                    return node.left
+                else:
+                    temp = node.left
+                    while temp.right:
+                        temp = temp.right
+                    node.val = temp.val
+                    node.left = del_helper(node.left,temp.val)
+                    return self.rebalance(node)
+            elif val < node.val:
+                child = del_helper(node.left,val)
+                return self.rebalance(node)
+            elif val > node.val:
+                child = del_helper(node.right, val)
+                return self.rebalance(node)
+
+        self.root = del_helper(self.root, val)
+        self.size -= 1
         ### END SOLUTION
 
     def __contains__(self, val):
@@ -199,7 +223,8 @@ def test_rl_fix_simple():
 # 30 points
 def test_key_order_after_ops():
     tc = TestCase()
-    vals = list(range(0, 100000000, 333333))
+    #vals = list(range(0, 100000000, 333333))
+    vals = list(range(0, 50, 2))
     random.shuffle(vals)
 
     t = AVLTree()
@@ -209,6 +234,8 @@ def test_key_order_after_ops():
     for _ in range(len(vals) // 3):
         to_rem = vals.pop(random.randrange(len(vals)))
         del t[to_rem]
+
+    t.pprint()
 
     vals.sort()
 
