@@ -80,7 +80,10 @@ class AVLTree:
                 if not node.left and not node.right:
                     return None
                 elif node.right and not node.left:
-                    return node.right
+                    temp = node.right
+                    node = None
+                    self.rebalance(temp)
+                    return temp
                 elif node.left and not node.right:
                     return node.left
                 else:
@@ -219,6 +222,25 @@ def test_rl_fix_simple():
     tc.assertEqual(height(t.root), 2)
     tc.assertEqual([t.root.left.val, t.root.val, t.root.right.val], [1, 2, 3])
 
+def test_custom():
+    tc = TestCase()
+
+    vals = list(range(0,50,2))
+    t = AVLTree()
+    for x in vals:
+        t.add(x)
+    for _ in range(len(vals)//4):
+        to_rem = vals.pop()
+        print()
+        print("Removing: " + str(to_rem))
+        print()
+        del t[to_rem]
+        t.pprint()
+        print()
+        
+    for i,val in enumerate(t):
+        tc.assertEqual(val, vals[i])
+
 # ensure key order is maintained after insertions and removals
 # 30 points
 def test_key_order_after_ops():
@@ -233,13 +255,19 @@ def test_key_order_after_ops():
 
     for _ in range(len(vals) // 3):
         to_rem = vals.pop(random.randrange(len(vals)))
+        print()
+        print("Removing: " + str(to_rem))
+        print()
         del t[to_rem]
+        t.pprint()
+        print()
 
-    t.pprint()
+    
 
     vals.sort()
 
     for i,val in enumerate(t):
+
         tc.assertEqual(val, vals[i])
 
 # stress testing
@@ -287,6 +315,7 @@ def main():
               test_rr_fix_simple,
               test_lr_fix_simple,
               test_rl_fix_simple,
+              test_custom,
               test_key_order_after_ops,
               test_stress_testing]:
         say_test(t)
