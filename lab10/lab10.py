@@ -74,16 +74,14 @@ class AVLTree:
     def __delitem__(self, val):
         assert(val in self)
         ### BEGIN SOLUTION
-        
+
+
         def del_helper(node, val):
             if node.val == val:
                 if not node.left and not node.right:
                     return None
                 elif node.right and not node.left:
-                    temp = node.right
-                    node = None
-                    self.rebalance(temp)
-                    return temp
+                    return node.right
                 elif node.left and not node.right:
                     return node.left
                 else:
@@ -99,6 +97,29 @@ class AVLTree:
             elif val > node.val:
                 child = del_helper(node.right, val)
                 return self.rebalance(node)
+        
+        
+        '''def del_helper(node, val):
+            if node.val == val:
+                if not node.left and not node.right:
+                    return None
+                elif node.right and not node.left:
+                    return node.right
+                elif node.left and not node.right:
+                    return node.left
+                else:
+                    temp = node.left
+                    while temp.right:
+                        temp = temp.right
+                    node.val = temp.val
+                    node.left = del_helper(node.left,temp.val)
+                    return self.rebalance(node)
+            elif val < node.val:
+                child = del_helper(node.left,val)
+                return self.rebalance(node)
+            elif val > node.val:
+                child = del_helper(node.right, val)
+                return self.rebalance(node)'''
 
         self.root = del_helper(self.root, val)
         self.size -= 1
