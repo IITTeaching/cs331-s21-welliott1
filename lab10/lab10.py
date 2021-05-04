@@ -37,6 +37,7 @@ class AVLTree:
     @staticmethod
     def rebalance(t):
         ### BEGIN SOLUTION
+        
         if t.balance_factor() <= -2:
             if(t.left.right and t.left.balance_factor()>0):
                 t.left.rotate_left()
@@ -54,6 +55,7 @@ class AVLTree:
     def add(self, val):
         assert(val not in self)
         ### BEGIN SOLUTION
+        
         
         def add_helper(node):
             if not node:
@@ -74,8 +76,7 @@ class AVLTree:
     def __delitem__(self, val):
         assert(val in self)
         ### BEGIN SOLUTION
-
-
+        
         def del_helper(node, val):
             if node.val == val:
                 if not node.left and not node.right:
@@ -92,34 +93,11 @@ class AVLTree:
                     node.left = del_helper(node.left,temp.val)
                     return self.rebalance(node)
             elif val < node.val:
-                child = del_helper(node.left,val)
+                node.left = del_helper(node.left,val)
                 return self.rebalance(node)
             elif val > node.val:
-                child = del_helper(node.right, val)
+                node.right = del_helper(node.right, val)
                 return self.rebalance(node)
-        
-        
-        '''def del_helper(node, val):
-            if node.val == val:
-                if not node.left and not node.right:
-                    return None
-                elif node.right and not node.left:
-                    return node.right
-                elif node.left and not node.right:
-                    return node.left
-                else:
-                    temp = node.left
-                    while temp.right:
-                        temp = temp.right
-                    node.val = temp.val
-                    node.left = del_helper(node.left,temp.val)
-                    return self.rebalance(node)
-            elif val < node.val:
-                child = del_helper(node.left,val)
-                return self.rebalance(node)
-            elif val > node.val:
-                child = del_helper(node.right, val)
-                return self.rebalance(node)'''
 
         self.root = del_helper(self.root, val)
         self.size -= 1
@@ -252,12 +230,8 @@ def test_custom():
         t.add(x)
     for _ in range(len(vals)//4):
         to_rem = vals.pop()
-        print()
-        print("Removing: " + str(to_rem))
-        print()
         del t[to_rem]
-        t.pprint()
-        print()
+        
         
     for i,val in enumerate(t):
         tc.assertEqual(val, vals[i])
@@ -266,8 +240,7 @@ def test_custom():
 # 30 points
 def test_key_order_after_ops():
     tc = TestCase()
-    #vals = list(range(0, 100000000, 333333))
-    vals = list(range(0, 50, 2))
+    vals = list(range(0, 100000000, 333333))
     random.shuffle(vals)
 
     t = AVLTree()
@@ -276,12 +249,9 @@ def test_key_order_after_ops():
 
     for _ in range(len(vals) // 3):
         to_rem = vals.pop(random.randrange(len(vals)))
-        print()
-        print("Removing: " + str(to_rem))
-        print()
+        
         del t[to_rem]
-        t.pprint()
-        print()
+        
 
     
 
