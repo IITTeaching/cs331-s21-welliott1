@@ -6,19 +6,78 @@ def quicksort(lst,pivot_fn):
 
 def qsort(lst,low,high,pivot_fn):
     ### BEGIN SOLUTION
+    if low<high:
+        p = pivot_fn(lst,low,high)
+        qsort(lst,low,p-1,pivot_fn)
+        qsort(lst,p+1,high,pivot_fn)
+        
+    
+    
     ### END SOLUTION
 
 def pivot_first(lst,low,high):
     ### BEGIN SOLUTION
+    pivot = lst[low]
+
+    h = high
+
+    for k in range(high,low,-1):
+        if lst[k] > pivot:
+            lst[h], lst[k] = lst[k], lst[h]
+            h = h-1
+    
+    lst[h],lst[low] = lst[low], lst[h]
+
+    return h
     ### END SOLUTION
 
 def pivot_random(lst,low,high):
     ### BEGIN SOLUTION
+    rint = random.randint(low,high)
+    pivot = lst[rint]
+    lst[rint],lst[low] = lst[low], lst[rint]
+
+    h = high
+
+    for k in range(high,low,-1):
+        if lst[k] > pivot:
+            lst[h], lst[k] = lst[k], lst[h]
+            h = h-1
+    
+    lst[h],lst[low] = lst[low], lst[h]
+    
+    return h
     ### END SOLUTION
 
 def pivot_median_of_three(lst,low,high):
     ### BEGIN SOLUTION
+    med = find_median(lst,low,((low+high)//2),high)
+    pivot = lst[med]
+    lst[med],lst[low] = lst[low],lst[med]
+    h = high
+
+    for k in range(high,low,-1):
+        if lst[k] > pivot:
+            lst[h], lst[k] = lst[k], lst[h]
+            h = h-1
+    
+    lst[h],lst[low] = lst[low], lst[h]
+
+    return h
     ### END SOLUTION
+
+def find_median(lst,left,mid,right):
+    leftel = lst[left]
+    midel = lst[mid]
+    rightel = lst[right]
+
+    if (leftel > midel and leftel < rightel) or (leftel > rightel and leftel < midel):
+        return left
+    elif (midel > leftel and midel < rightel) or (midel > rightel and midel < leftel):
+        return mid
+    elif (rightel > midel and rightel < leftel) or (rightel > leftel and rightel < midel):
+        return right
+    return left
 
 ################################################################################
 # TEST CASES
